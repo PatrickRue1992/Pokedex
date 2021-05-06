@@ -1,7 +1,9 @@
+import Pokelist from "./Pokelist";
+
 function App() {
   return (
     <div className="App">
-      <h1>APP COMPONENT</h1>
+      <Pokelist />
     </div>
   );
 }

@@ -1,0 +1,7 @@
+.ListContainer {
+  position: fixed;
+  height: 100vh;
+  width: 25vw;
+  background-color: rgb(204, 202, 174);
+  text-align: center;
+}
