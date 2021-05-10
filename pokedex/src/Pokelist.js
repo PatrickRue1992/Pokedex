@@ -1,59 +1,99 @@
 import React, { useState, useEffect } from "react";
+import SinglePokemon from "./SinglePokemon";
 import "./Styles/Pokelist.css";
+import { getPokemon, getPokemonData } from "./util/pokemon";
 
 function Pokelist() {
-  const [list, setList] = useState([]);
-  const [currentPageUrl, setCurrentPageUrl] = useState(
-    "https://pokeapi.co/api/v2/pokemon"
-  );
-  const [nextPageUrl, setNextPageUrl] = useState("");
-  const [prevPageUrl, setPrevPageUrl] = useState("");
-
-  const nextPage = () => {
-    setCurrentPageUrl(nextPageUrl);
-  };
-
-  const prevPage = () => {
-    setCurrentPageUrl(prevPageUrl);
-  };
-
-  //fetch inital Pokemons starting by 1
-  const fetchPoke = async (url) => {
-    try {
-      const response = await fetch(url);
-      const pokeList = await response.json();
-
-      setList(pokeList.results);
-      setNextPageUrl(pokeList.next);
-      setPrevPageUrl(pokeList.previous);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [pokemons, setPokemons] = useState([]);
+  const [nextUrl, setNextUrl] = useState("");
+  const [prevUrl, setPrevUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
   useEffect(() => {
-    fetchPoke(currentPageUrl);
-  }, [currentPageUrl]);
+    async function fetchData() {
+      let response = await getPokemon(initialUrl);
+      setNextUrl(response.next);
+      setPrevUrl(response.previous);
+      await loadingPokemon(response.results);
+
+      setLoading(false);
+    }
+
+    fetchData();
+  }, []);
+
+  const nextPoke = async () => {
+    setLoading(true);
+    let data = await getPokemon(nextUrl);
+    await loadingPokemon(data.results);
+    setNextUrl(data.next);
+    setPrevUrl(data.previous);
+    setLoading(false);
+  };
+  const prevPoke = async () => {
+    if (!prevUrl) return;
+    setLoading(true);
+    let data = await getPokemon(prevUrl);
+    await loadingPokemon(data.results);
+    setNextUrl(data.next);
+    setPrevUrl(data.previous);
+    setLoading(false);
+  };
+
+  const loadingPokemon = async (data) => {
+    let _pokemonData = await Promise.all(
+      data.map(async (pokemon) => {
+        let pokemonRecord = await getPokemonData(pokemon.url);
+        console.log(pokemonRecord);
+        return pokemonRecord;
+      })
+    );
+
+    setPokemons(_pokemonData);
+  };
 
   return (
     <>
-      <div className="ListContainer">
-        <ul>
-          {list.map((poke) => {
-            let id = poke.url.split("/");
+      <header>
+        <p>Pokedex</p>
+      </header>
+      {loading ? (
+        <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
+      ) : (
+        <div className="container">
+          <div className="btn-container">
+            <button className="btn" onClick={prevPoke}>
+              prev
+            </button>
+            <button className="btn" onClick={nextPoke}>
+              next
+            </button>
+          </div>
 
-            return (
-              <li key={id[6]}>
-                {id[6]}
-                <span> {poke.name}</span>
-                {/*  {poke.url} */}
-              </li>
-            );
-          })}
-        </ul>
-        {prevPageUrl ? <button onClick={prevPage}>prev</button> : ""}
-        {nextPageUrl ? <button onClick={nextPage}>next</button> : ""}
-      </div>
+          <div className="Pokemon-Container">
+            {pokemons.map((poke, index) => {
+              return (
+                <>
+                  <SinglePokemon
+                    key={index}
+                    pokemon={poke}
+                    /*  id={poke.id}
+                    name={poke.name}
+                    img={poke.sprites.other["official-artwork"].front_default} */
+                  />
+                </>
+              );
+            })}
+          </div>
+          <button className="btn" onClick={prevPoke}>
+            prev
+          </button>
+          <button className="btn" onClick={nextPoke}>
+            next
+          </button>
+        </div>
+      )}
     </>
   );
 }

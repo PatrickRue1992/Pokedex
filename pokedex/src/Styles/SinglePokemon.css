@@ -1,0 +1,23 @@
+.Pokemon-Container {
+  padding-top: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.SinglePokeContainer {
+  text-align: center;
+  background-color: aqua;
+  margin: 0.75rem;
+  border-radius: 5%;
+}
+
+.SinglePokeContainer p {
+  font-size: 3rem;
+  text-transform: capitalize;
+  padding-top: 5%;
+  font-weight: 700;
+}
+
+.SinglePokeContainer img {
+  height: 50%;
+}
