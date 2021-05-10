@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Frijole&display=swap");
+
+.modalContainer {
+  width: 80%;
+  left: 10%;
+  height: 75vh;
+  background-color: white;
+  position: fixed;
+  text-align: center;
+  background: rgb(145, 168, 168);
+  background: linear-gradient(
+    0deg,
+    rgba(145, 168, 168, 1) 45%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  text-align: center;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  color: black;
+}
+
+.ModalContent {
+  height: 63vh;
+  width: 90%;
+  border: 1px solid black;
+  margin-left: 5em;
+  background-color: rgba(243, 237, 237, 0.883);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.picContainer {
+  border: 1px solid red;
+  padding-top: 2vh;
+  font-size: 4rem;
+}
+
+.picContainer .id {
+  font-family: "Anton", sans-serif;
+}
+.picContainer .pokeName {
+  font-family: "Frijole", cursive;
+}
