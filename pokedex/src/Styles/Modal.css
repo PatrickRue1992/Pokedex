@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Anton&family=Frijole&display=swap");
 
+/* START complete container */
 .modalContainer {
   width: 80%;
   left: 10%;
@@ -23,18 +24,22 @@
   color: black;
 }
 
+/* End complete  container */
+
+/* Start container mit Inhalt */
 .ModalContent {
   height: 63vh;
   width: 90%;
-  border: 1px solid black;
+  /*   border: 1px solid black; */
   margin-left: 5em;
   background-color: rgba(243, 237, 237, 0.883);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+/* End container mit Inhalt */
 
+/* start linkes drittel des containers */
 .picContainer {
-  border: 1px solid red;
   padding-top: 2vh;
   font-size: 4rem;
 }
@@ -45,3 +50,8 @@
 .picContainer .pokeName {
   font-family: "Frijole", cursive;
 }
+/* ende linkes drittel des containers */
+
+/* start mittleres drittel des containers */
+
+/* ENde mittleres drittel des containers */
