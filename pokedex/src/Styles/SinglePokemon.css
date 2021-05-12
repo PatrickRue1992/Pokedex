@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Russo+One&display=swap");
+
 .Pokemon-Container {
   padding-top: 5rem;
   display: grid;
@@ -15,7 +17,7 @@
   font-size: 3rem;
   text-transform: capitalize;
   padding-top: 5%;
-  font-weight: 700;
+  font-family: "Russo One", sans-serif;
 }
 
 .SinglePokeContainer img {

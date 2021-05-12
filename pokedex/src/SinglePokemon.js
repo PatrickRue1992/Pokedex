@@ -2,7 +2,7 @@ import React from "react";
 import "./Styles/SinglePokemon.css";
 import typeColors from "./util/typeColors";
 
-function SinglePokemon({ pokemon }) {
+function SinglePokemon({ pokemon, openModal }) {
   return (
     <>
       <section
@@ -16,6 +16,8 @@ function SinglePokemon({ pokemon }) {
       >
         <p>#0{pokemon.id}</p>
         <img
+          onClick={openModal}
+          data-id={pokemon.id}
           src={pokemon.sprites.other["official-artwork"].front_default}
           alt=""
         />
