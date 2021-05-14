@@ -4,13 +4,15 @@
   padding-top: 5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding-left: 0.75rem;
 }
 
 .SinglePokeContainer {
   text-align: center;
   background-color: aqua;
-  margin: 0.75rem;
+  margin: 0.25rem;
   border-radius: 5%;
+  width: 23vw;
 }
 
 .SinglePokeContainer p {
