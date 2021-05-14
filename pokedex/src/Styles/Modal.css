@@ -44,14 +44,60 @@
   font-size: 4rem;
 }
 
+.modal_img {
+  width: 70%;
+}
+
 .picContainer .id {
   font-family: "Anton", sans-serif;
 }
 .picContainer .pokeName {
   font-family: "Frijole", cursive;
+  font-size: 3rem;
 }
 /* ende linkes drittel des containers */
 
 /* start mittleres drittel des containers */
+
+.Biography {
+  text-align: left;
+  font-size: 2rem;
+  padding-left: 2rem;
+  font-family: "Anton", sans-serif;
+  position: relative;
+  left: 1.5rem;
+  top: 1.5rem;
+}
+
+.bio_data {
+  padding-top: 0.5rem;
+  font-size: 1.15rem;
+  text-align: left;
+}
+
+.bio_Text {
+  text-align: left;
+}
+
+span {
+  padding-left: 2.5rem;
+}
+
+.test {
+  padding-top: 0.5rem;
+  font-size: 1.25rem;
+}
+
+/* start training bereich Mitte */
+
+.training_container {
+  padding-top: 1.5rem;
+}
+.training_data {
+  padding-top: 1rem;
+  font-size: 1.25rem;
+}
+
+/* ende training bereich Mitte */
 
 /* ENde mittleres drittel des containers */
