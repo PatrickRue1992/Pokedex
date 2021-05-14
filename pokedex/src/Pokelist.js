@@ -11,8 +11,9 @@ function Pokelist() {
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [singlePoke, setSinglePoke] = useState([]);
+  const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -22,11 +23,18 @@ function Pokelist() {
 
   const openModal = async (e) => {
     let tempId = e.target.dataset.id;
-    //fetch SinglePokemonData für Model
+    //fetch SinglePokemonData für Model und danach die Species Data
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${tempId}`);
     const data = await response.json();
-    setShowModal(true);
+    const specieResponse = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${tempId}`
+    );
+    const specieData = await specieResponse.json();
+
     setSinglePoke(data);
+    setSinglePokeSpecies(specieData);
+    setShowModal(true);
+    await console.log(singlePokeSpecies);
   };
 
   useEffect(() => {
@@ -96,7 +104,11 @@ function Pokelist() {
           {/* Modal zeigen */}
 
           {showModal && (
-            <Modal singlePoke={singlePoke} closeModal={closeModal} />
+            <Modal
+              singlePoke={singlePoke}
+              closeModal={closeModal}
+              singlePokeSpecies={singlePokeSpecies}
+            />
           )}
 
           <div className="Pokemon-Container">
