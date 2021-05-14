@@ -46,76 +46,65 @@ function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
             <p>Bio</p>
             <div className="bio_data">
               <p className="bio_Text">{bioText}</p>
-              <div className="test">
-                <p>
-                  Genus: <span>{singlePokeSpecies.genera[7].genus}</span>
-                </p>
-                <p>
-                  Types:{" "}
-                  <span className="tab">
-                    {singlePoke.types[0].type.name}
-
-                    {singlePoke.types.length > 1
-                      ? ` / ${singlePoke.types[1].type.name}`
-                      : ""}
-                  </span>
-                </p>
+              <div className="bio_data_container">
+                <p>Genus: </p>
+                <p>{singlePokeSpecies.genera[7].genus}</p>
+                <p>{singlePoke.types.length > 1 ? "Types:" : "Type:"}</p>
 
                 <p>
-                  Height:
-                  <span className="tab">
-                    {singlePoke.height / 10}m (
-                    {Math.floor(((singlePoke.height / 10) * 39.37) / 12)}&apos;
-                    {(((singlePoke.height / 10) * 39.37) % 12).toFixed(1)}
-                    &quot;)
-                  </span>
-                </p>
-                <p>
-                  Weight:
-                  <span className="tab">
-                    {singlePoke.weight / 10}kg (
-                    {((singlePoke.weight / 10) * 2.2).toFixed(1)} lbs)
-                  </span>
+                  {singlePoke.types[0].type.name}
+
+                  {singlePoke.types.length > 1
+                    ? ` / ${singlePoke.types[1].type.name}`
+                    : ""}
                 </p>
 
-                <div>
-                  <p>
-                    Abilities:
-                    <span className="tab">
-                      {singlePoke.abilities[0].ability.name}
-                    </span>
-                  </p>
-                  <p>
-                    <span className="tab">
-                      {singlePoke.abilities.length > 1
-                        ? `${singlePoke.abilities[1].ability.name} (Hidden Ability)`
-                        : ""}
-                    </span>
-                  </p>
-                </div>
+                <p>Height: </p>
+                <p>
+                  {singlePoke.height / 10}m (
+                  {Math.floor(((singlePoke.height / 10) * 39.37) / 12)}&apos;
+                  {(((singlePoke.height / 10) * 39.37) % 12).toFixed(1)}
+                  &quot;)
+                </p>
+
+                <p>Weight:</p>
+                <p>
+                  {singlePoke.weight / 10}kg (
+                  {((singlePoke.weight / 10) * 2.2).toFixed(1)} lbs)
+                </p>
+
+                <p>Ability:</p>
+                <p>{singlePoke.abilities[0].ability.name}</p>
+
+                <p>
+                  {singlePoke.abilities.length > 1 ? "Hidden Ability:" : ""}
+                </p>
+                <p className="test">
+                  {singlePoke.abilities.length > 1
+                    ? `${singlePoke.abilities[1].ability.name} `
+                    : ""}
+                </p>
               </div>
             </div>
 
             <div className="training_container">
               <p>Training</p>
               <div className="training_data">
+                <p>Base Exp:</p>
+                <p>{singlePoke.base_experience}</p>
+
+                <p>Base Happines:</p>
+                <p>{singlePokeSpecies.base_happiness}</p>
+
+                <p>Catch Rate:</p>
                 <p>
-                  Base Exp: <span>{singlePoke.base_experience}</span>
+                  {singlePokeSpecies.capture_rate} (
+                  {((singlePokeSpecies.capture_rate / 255) * 100).toFixed(1)}
+                  %)
                 </p>
-                <p>
-                  Base Happines: <span>{singlePokeSpecies.base_happiness}</span>
-                </p>
-                <p>
-                  Catch Rate:{" "}
-                  <span>
-                    {singlePokeSpecies.capture_rate} (
-                    {((singlePokeSpecies.capture_rate / 255) * 100).toFixed(1)}
-                    %)
-                  </span>
-                </p>
-                <p>
-                  Growth Rate: <span>{singlePokeSpecies.growth_rate.name}</span>
-                </p>
+
+                <p>Growth Rate:</p>
+                <p>{singlePokeSpecies.growth_rate.name}</p>
               </div>
             </div>
           </div>

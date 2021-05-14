@@ -79,13 +79,16 @@
   text-align: left;
 }
 
-span {
-  padding-left: 2.5rem;
+.bio_data_container {
+  padding-top: 0.5rem;
+  font-size: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-right: 6rem;
 }
 
 .test {
-  padding-top: 0.5rem;
-  font-size: 1.25rem;
+  text-align: justify;
 }
 
 /* start training bereich Mitte */
@@ -96,6 +99,9 @@ span {
 .training_data {
   padding-top: 1rem;
   font-size: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-right: 6rem;
 }
 
 /* ende training bereich Mitte */
