@@ -17,24 +17,28 @@ function Pokelist() {
 
   const closeModal = () => {
     setShowModal(false);
+    setSinglePoke([]);
+    setSinglePokeSpecies([]);
   };
 
-  //show Modal
-
+  //show Modal and what information to get
   const openModal = async (e) => {
     let tempId = e.target.dataset.id;
-    //fetch SinglePokemonData für Model und danach die Species Data
+    //fetch detailed information about the pokemon based on its ID
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${tempId}`);
     const data = await response.json();
+    setSinglePoke(data);
+    //fetch more detailed information about the pokemon based on its ID
     const specieResponse = await fetch(
       `https://pokeapi.co/api/v2/pokemon-species/${tempId}`
     );
     const specieData = await specieResponse.json();
-
-    setSinglePoke(data);
     setSinglePokeSpecies(specieData);
+
+    const evoChainResp = await fetch(singlePokeSpecies.evolution_chain.url);
+    const evoChainData = await evoChainResp.json();
+
     setShowModal(true);
-    await console.log(singlePokeSpecies);
   };
 
   useEffect(() => {
@@ -49,7 +53,19 @@ function Pokelist() {
     fetchData();
   }, []);
 
-  //liste voran
+  const loadingPokemon = async (data) => {
+    let _pokemonData = await Promise.all(
+      data.map(async (pokemon) => {
+        let pokemonRecord = await getPokemonData(pokemon.url);
+        return pokemonRecord;
+      })
+    );
+
+    setPokemons(_pokemonData);
+    await console.log(pokemons);
+  };
+
+  //next 20 Pokemon
   const nextPoke = async () => {
     setLoading(true);
     let data = await getPokemon(nextUrl);
@@ -60,7 +76,7 @@ function Pokelist() {
     setLoading(false);
   };
 
-  // previous button - liste zurück
+  // previous 20 Pokemon
   const prevPoke = async () => {
     if (!prevUrl) return;
     setLoading(true);
@@ -72,21 +88,10 @@ function Pokelist() {
     setLoading(false);
   };
 
-  const loadingPokemon = async (data) => {
-    let _pokemonData = await Promise.all(
-      data.map(async (pokemon) => {
-        let pokemonRecord = await getPokemonData(pokemon.url);
-        return pokemonRecord;
-      })
-    );
-
-    setPokemons(_pokemonData);
-  };
-
   return (
     <>
       <header>
-        <p>Pokedex</p>
+        <p>Pokédex</p>
       </header>
       {loading ? (
         <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
@@ -101,7 +106,7 @@ function Pokelist() {
             </button>
           </div>
 
-          {/* Modal zeigen */}
+          {/* show Modal */}
 
           {showModal && (
             <Modal
@@ -112,11 +117,11 @@ function Pokelist() {
           )}
 
           <div className="Pokemon-Container">
-            {pokemons.map((poke, index) => {
+            {pokemons.map((poke) => {
               return (
                 <>
                   <SinglePokemon
-                    key={index}
+                    key={poke.id}
                     pokemon={poke}
                     openModal={openModal}
                   />

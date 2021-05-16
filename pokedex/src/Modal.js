@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getPokemon } from "./util/pokemon";
 import "./Styles/Modal.css";
 import { AiOutlineClose } from "react-icons/ai";
 import typeColors from "./util/typeColors";
@@ -6,9 +7,14 @@ import typeColors from "./util/typeColors";
 function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
   let bioText = singlePokeSpecies.flavor_text_entries[0].flavor_text;
   bioText = bioText.split("").join(" ");
+
+  /* let evoChainNum = singlePokeSpecies.evolution_chain.url;
+  evoChainNum = evoChainNum.split("/");
+  evoChainNum = evoChainNum[6]; */
+
   return (
     <>
-      <div className="modalContainer">
+      <div className="modalContainer" key={singlePoke.id}>
         <header>
           <i className="closeIcon" onClick={closeModal}>
             <AiOutlineClose size={60} />
@@ -108,7 +114,66 @@ function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
               </div>
             </div>
           </div>
-          <p>NAME</p>
+          {/*  */}
+          <div className="rightPart">
+            <div className="evolutions">
+              <p>Evolution</p>
+
+              {/* evolution api anschauen und iterieren */}
+              <div className="evo_container">
+                <div className="evo_images">
+                  <p className="evo_id">#001</p>
+                  <img
+                    className="evoo"
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
+                    alt=""
+                  />
+                  <p className="evo_name">xxx</p>
+                </div>
+
+                <div className="evo_images">
+                  <p className="evo_id">#001</p>
+                  <img
+                    className="evoo"
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
+                    alt=""
+                  />
+                  <p className="evo_name">yyy</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="base_stats_container">
+              <p>Base Stats</p>
+
+              <div className="base_stats">
+                <div>
+                  <p>HP</p>
+                  <p>{singlePoke.stats[0].base_stat}</p>
+                </div>
+                <div>
+                  <p>Atk</p>
+                  <p>{singlePoke.stats[1].base_stat}</p>
+                </div>
+                <div>
+                  <p>Def</p>
+                  <p>{singlePoke.stats[2].base_stat}</p>
+                </div>
+                <div>
+                  <p>Sp.Atk</p>
+                  <p>{singlePoke.stats[3].base_stat}</p>
+                </div>
+                <div>
+                  <p>Sp.Def</p>
+                  <p>{singlePoke.stats[4].base_stat}</p>
+                </div>
+                <div>
+                  <p>Speed</p>
+                  <p>{singlePoke.stats[5].base_stat}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

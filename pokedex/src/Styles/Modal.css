@@ -9,6 +9,7 @@
   position: fixed;
   text-align: center;
   background: rgb(145, 168, 168);
+  border-radius: 1%;
   background: linear-gradient(
     0deg,
     rgba(145, 168, 168, 1) 45%,
@@ -62,7 +63,6 @@
 .Biography {
   text-align: left;
   font-size: 2rem;
-  padding-left: 2rem;
   font-family: "Anton", sans-serif;
   position: relative;
   left: 1.5rem;
@@ -92,7 +92,6 @@
 }
 
 /* start training bereich Mitte */
-
 .training_container {
   padding-top: 1.5rem;
 }
@@ -103,7 +102,64 @@
   grid-template-columns: 1fr 1fr;
   padding-right: 6rem;
 }
-
 /* ende training bereich Mitte */
 
 /* ENde mittleres drittel des containers */
+
+/* Start   */
+
+.rightPart {
+  text-align: left;
+  font-size: 2rem;
+  padding-left: 2rem;
+  font-family: "Anton", sans-serif;
+  position: relative;
+  left: 1.5rem;
+  top: 1.5rem;
+}
+
+.evo_container {
+  /* display: grid;
+  grid-template-columns: 1fr; */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.evo_images {
+  font-size: 1.5rem;
+}
+.evo_images .evo_id {
+  padding-left: 25%;
+}
+
+.evo_images .evo_name {
+  padding-left: 20%;
+}
+
+.evo_images .evoo {
+  font-size: 1.5rem;
+  border: 0.25rem black solid;
+  left: 25%;
+  display: block;
+  text-align: center;
+  width: 75%;
+  background-color: white;
+  border-radius: 50%;
+}
+
+/* Start Base Stats */
+
+.base_stats_container {
+  padding-top: 3rem;
+}
+
+.base_stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 1.25rem;
+  padding-top: 1rem;
+}
+
+/* End Base Stats */
