@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SinglePokemon from "./SinglePokemon";
 import "./Styles/Pokelist.css";
-import { getPokemon, getPokemonData } from "./util/pokemon";
+import { getPokemon, getPokemonData, fetchSinglePoke } from "./util/pokemon";
 import Modal from "./Modal";
 
 const initialUrl = "https://pokeapi.co/api/v2/pokemon";
@@ -14,6 +14,7 @@ function Pokelist() {
   const [showModal, setShowModal] = useState(false);
   const [singlePoke, setSinglePoke] = useState([]);
   const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
+  const [singlePokeEvoChain, setSinglePokeEvoChain] = useState([]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -22,21 +23,47 @@ function Pokelist() {
   };
 
   //show Modal and what information to get
+
   const openModal = async (e) => {
     let tempId = e.target.dataset.id;
     //fetch detailed information about the pokemon based on its ID
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${tempId}`);
-    const data = await response.json();
-    setSinglePoke(data);
-    //fetch more detailed information about the pokemon based on its ID
-    const specieResponse = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${tempId}`
-    );
-    const specieData = await specieResponse.json();
-    setSinglePokeSpecies(specieData);
 
-    const evoChainResp = await fetch(singlePokeSpecies.evolution_chain.url);
-    const evoChainData = await evoChainResp.json();
+    const fetchSinglePoke = async () => {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${tempId}`
+      );
+      const data = await response.json();
+      setSinglePoke(data);
+
+      return data;
+    };
+
+    const fetchSpecieData = async () => {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon-species/${tempId}`
+      );
+      const data = await response.json();
+      setSinglePokeSpecies(data);
+
+      return data;
+    };
+
+    const fetchEvoData = async (url) => {
+      const response = await fetch(url);
+      const data = await response.json();
+      setSinglePokeEvoChain(data);
+      return data;
+    };
+
+    // Fetch the data by sending two request at once rather than one by one
+    const [singlePoke, specieData] = await Promise.all([
+      fetchSinglePoke(),
+      fetchSpecieData(),
+    ]);
+
+    const [singlePokeEvoChain] = await Promise.all([
+      fetchEvoData(specieData.evolution_chain.url),
+    ]);
 
     setShowModal(true);
   };
@@ -113,6 +140,7 @@ function Pokelist() {
               singlePoke={singlePoke}
               closeModal={closeModal}
               singlePokeSpecies={singlePokeSpecies}
+              singlePokeEvoChain={singlePokeEvoChain}
             />
           )}
 
