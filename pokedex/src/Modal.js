@@ -1,17 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { getPokemon } from "./util/pokemon";
+import React from "react";
 import "./Styles/Modal.css";
 import { AiOutlineClose } from "react-icons/ai";
 import typeColors from "./util/typeColors";
 
-function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
+function Modal({
+  closeModal,
+  singlePoke,
+  singlePokeSpecies,
+  singlePokeEvoChain,
+}) {
   let bioText = singlePokeSpecies.flavor_text_entries[0].flavor_text;
   bioText = bioText.split("").join(" ");
 
-  /* let evoChainNum = singlePokeSpecies.evolution_chain.url;
-  evoChainNum = evoChainNum.split("/");
-  evoChainNum = evoChainNum[6]; */
+  //Start ID of the first Poke in the chain
+  let basePokeTempId = singlePokeEvoChain.chain.species.url;
+  basePokeTempId = basePokeTempId.split("/");
+  basePokeTempId = basePokeTempId[6];
+  //End ID of the first Poke in the chain
 
+  //get ID first evolv if exists
+  let firstEvolTempId = "";
+  if (singlePokeEvoChain.chain.evolves_to.length > 0) {
+    firstEvolTempId = singlePokeEvoChain.chain.evolves_to[0].species.url;
+    firstEvolTempId = firstEvolTempId.split("/");
+    firstEvolTempId = firstEvolTempId[6];
+  }
+
+  //get ID second evol if exists
+  let secondEvolTempId = "";
+  if (
+    singlePokeEvoChain.chain.evolves_to.length > 0 &&
+    singlePokeEvoChain.chain.evolves_to[0].evolves_to.length > 0
+  ) {
+    secondEvolTempId =
+      singlePokeEvoChain.chain.evolves_to[0].evolves_to[0].species.url;
+    secondEvolTempId = secondEvolTempId.split("/");
+    secondEvolTempId = secondEvolTempId[6];
+  }
+
+  console.log(secondEvolTempId);
+  /*  console.log(singlePokeEvoChain.chain.evolves_to[0].evolves_to.length); */
   return (
     <>
       <div className="modalContainer" key={singlePoke.id}>
@@ -114,7 +142,8 @@ function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
               </div>
             </div>
           </div>
-          {/*  */}
+
+          {/* Start rechter Part (evolution und base stats) */}
           <div className="rightPart">
             <div className="evolutions">
               <p>Evolution</p>
@@ -122,24 +151,58 @@ function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
               {/* evolution api anschauen und iterieren */}
               <div className="evo_container">
                 <div className="evo_images">
-                  <p className="evo_id">#001</p>
+                  <div></div>
+                  {/* Every Pokemons first Stage is shown first */}
+                  <p className="evo_id">{basePokeTempId}</p>
                   <img
                     className="evoo"
-                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${basePokeTempId}.png`}
                     alt=""
                   />
-                  <p className="evo_name">xxx</p>
+                  <p className="evo_name">
+                    {singlePokeEvoChain.chain.species.name}
+                  </p>
                 </div>
 
-                <div className="evo_images">
-                  <p className="evo_id">#001</p>
-                  <img
-                    className="evoo"
-                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
-                    alt=""
-                  />
-                  <p className="evo_name">yyy</p>
-                </div>
+                {/* dynamic Container, check if there is a first evolution, if yes, show it */}
+
+                {singlePokeEvoChain.chain.evolves_to.length > 0 ? (
+                  <div className="evo_images">
+                    <p className="evo_id">{firstEvolTempId}</p>
+                    <img
+                      className="evoo"
+                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${firstEvolTempId}.png`}
+                      alt=""
+                    />
+                    <p className="evo_name">
+                      {singlePokeEvoChain.chain.evolves_to[0].species.name}
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {/* dynamic Container, 2nd evolution, if yes, show it */}
+
+                {singlePokeEvoChain.chain.evolves_to.length > 0 &&
+                singlePokeEvoChain.chain.evolves_to[0].evolves_to.length > 0 ? (
+                  <div className="evo_images">
+                    <p className="evo_id">{secondEvolTempId}</p>
+                    <img
+                      className="evoo"
+                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${secondEvolTempId}.png`}
+                      alt=""
+                    />
+                    <p className="evo_name">
+                      {
+                        singlePokeEvoChain.chain.evolves_to[0].evolves_to[0]
+                          .species.name
+                      }
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
@@ -147,27 +210,27 @@ function Modal({ closeModal, singlePoke, singlePokeSpecies }) {
               <p>Base Stats</p>
 
               <div className="base_stats">
-                <div>
+                <div className="stat_container">
                   <p>HP</p>
                   <p>{singlePoke.stats[0].base_stat}</p>
                 </div>
-                <div>
+                <div className="stat_container">
                   <p>Atk</p>
                   <p>{singlePoke.stats[1].base_stat}</p>
                 </div>
-                <div>
+                <div className="stat_container">
                   <p>Def</p>
                   <p>{singlePoke.stats[2].base_stat}</p>
                 </div>
-                <div>
+                <div className="stat_container">
                   <p>Sp.Atk</p>
                   <p>{singlePoke.stats[3].base_stat}</p>
                 </div>
-                <div>
+                <div className="stat_container">
                   <p>Sp.Def</p>
                   <p>{singlePoke.stats[4].base_stat}</p>
                 </div>
-                <div>
+                <div className="stat_container">
                   <p>Speed</p>
                   <p>{singlePoke.stats[5].base_stat}</p>
                 </div>
