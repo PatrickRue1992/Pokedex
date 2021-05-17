@@ -126,6 +126,7 @@
 
 .evo_images {
   font-size: 1.5rem;
+  text-transform: capitalize;
 }
 /* .evo_images .evo_id {
   padding-left: 25%;
@@ -148,15 +149,13 @@
 
 .base_stats_container {
   position: relative;
-  top: 12.1%;
+  top: 11.9%;
 }
 
 .base_stats {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   font-size: 1.25rem;
-
-  padding-top: 1rem;
 }
 
 .base_stats .stat_container {
