@@ -35,13 +35,13 @@
   margin-left: 5em;
   background-color: rgba(243, 237, 237, 0.883);
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.65fr 1fr 1fr;
 }
 /* End container mit Inhalt */
 
 /* start linkes drittel des containers */
 .picContainer {
-  padding-top: 2vh;
+  padding-top: 4rem;
   font-size: 4rem;
 }
 
@@ -114,37 +114,32 @@
   padding-left: 2rem;
   font-family: "Anton", sans-serif;
   position: relative;
-  left: 1.5rem;
   top: 1.5rem;
 }
 
 .evo_container {
-  /* display: grid;
-  grid-template-columns: 1fr; */
-
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-evenly;
+  text-align: center;
 }
 
 .evo_images {
   font-size: 1.5rem;
 }
-.evo_images .evo_id {
+/* .evo_images .evo_id {
   padding-left: 25%;
-}
+} */
 
-.evo_images .evo_name {
+/* .evo_images .evo_name {
   padding-left: 20%;
-}
+} */
 
 .evo_images .evoo {
   font-size: 1.5rem;
+  position: relative;
   border: 0.25rem black solid;
-  left: 25%;
-  display: block;
-  text-align: center;
-  width: 75%;
+  width: 80%;
   background-color: white;
   border-radius: 50%;
 }
@@ -152,14 +147,20 @@
 /* Start Base Stats */
 
 .base_stats_container {
-  padding-top: 3rem;
+  position: relative;
+  top: 12.1%;
 }
 
 .base_stats {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   font-size: 1.25rem;
+
   padding-top: 1rem;
+}
+
+.base_stats .stat_container {
+  padding-right: 5rem;
 }
 
 /* End Base Stats */
