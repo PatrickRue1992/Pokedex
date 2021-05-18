@@ -1,6 +1,7 @@
 import React from "react";
 import "./Styles/Modal.css";
 import { AiOutlineClose } from "react-icons/ai";
+import { FcPrevious, FcNext } from "react-icons/fc";
 import typeColors from "./util/typeColors";
 import LeftModalComponent from "./ModalComponents/LeftModalComponent";
 import BiographyComponent from "./ModalComponents/BiographyComponent";
@@ -13,7 +14,11 @@ function Modal({
   singlePoke,
   singlePokeSpecies,
   singlePokeEvoChain,
+  openModal,
+  nextModalPoke,
+  prevModalPoke,
 }) {
+  console.log(singlePoke.id);
   return (
     <>
       <div className="modalContainer" key={singlePoke.id}>
@@ -21,7 +26,16 @@ function Modal({
           <i className="closeIcon" onClick={closeModal}>
             <AiOutlineClose size={60} />
           </i>
+
+          <i data-id={singlePoke.id} onClick={prevModalPoke}>
+            <FcPrevious size={60} />
+          </i>
+
+          <i data-id={singlePoke.id} onClick={nextModalPoke}>
+            <FcNext size={60} />
+          </i>
         </header>
+
         <div
           className="ModalContent"
           style={{
@@ -50,7 +64,10 @@ function Modal({
 
           {/* Start rechter Part (evolution und base stats) */}
           <div className="rightPart">
-            <EvolutionDataComponent singlePokeEvoChain={singlePokeEvoChain} />
+            <EvolutionDataComponent
+              singlePokeEvoChain={singlePokeEvoChain}
+              openModal={openModal}
+            />
             <BaseStatsDataComponent singlePoke={singlePoke} />
           </div>
         </div>
