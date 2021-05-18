@@ -24,3 +24,20 @@ header p {
   border-radius: 20%;
   margin: 0 4rem;
 }
+
+/* FORM */
+.form_container {
+  position: relative;
+  top: 2em;
+  text-align: center;
+}
+
+.form {
+  width: 40vw;
+  text-align: center;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  border: solid 2px black;
+  border-radius: 7%;
+  margin: 0.5rem;
+}

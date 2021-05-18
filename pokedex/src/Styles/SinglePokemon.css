@@ -5,6 +5,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   padding-left: 0.75rem;
+  background-color: rgb(223, 223, 223);
 }
 
 .SinglePokeContainer {

@@ -2,9 +2,10 @@
 
 /* START complete container */
 .modalContainer {
-  width: 80%;
-  left: 10%;
+  width: 95%;
+  left: 2.5%;
   height: 75vh;
+  top: 6rem;
   background-color: white;
   position: fixed;
   text-align: center;
@@ -32,7 +33,7 @@
   height: 63vh;
   width: 90%;
   /*   border: 1px solid black; */
-  margin-left: 5em;
+  margin-left: 3.5em;
   background-color: rgba(243, 237, 237, 0.883);
   display: grid;
   grid-template-columns: 0.65fr 1fr 1fr;
@@ -54,7 +55,7 @@
 }
 .picContainer .pokeName {
   font-family: "Frijole", cursive;
-  font-size: 3rem;
+  font-size: 2.4rem;
 }
 /* ende linkes drittel des containers */
 
@@ -149,7 +150,7 @@
 
 .base_stats_container {
   position: relative;
-  top: 11.9%;
+  top: 7.2%;
 }
 
 .base_stats {
@@ -163,3 +164,5 @@
 }
 
 /* End Base Stats */
+
+/* Next Button Modal */
