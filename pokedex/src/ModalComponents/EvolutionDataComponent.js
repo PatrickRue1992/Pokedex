@@ -1,6 +1,6 @@
 import React from "react";
 
-const EvolutionDataComponent = ({ singlePokeEvoChain }) => {
+const EvolutionDataComponent = ({ singlePokeEvoChain, openModal }) => {
   //Start ID of the first Poke in the chain
   let basePokeTempId = singlePokeEvoChain.chain.species.url;
   basePokeTempId = basePokeTempId.split("/");
@@ -26,6 +26,7 @@ const EvolutionDataComponent = ({ singlePokeEvoChain }) => {
     secondEvolTempId = secondEvolTempId.split("/");
     secondEvolTempId = secondEvolTempId[6];
   }
+
   return (
     <>
       <div className="evolutions">
@@ -43,6 +44,8 @@ const EvolutionDataComponent = ({ singlePokeEvoChain }) => {
             </p>
             <img
               className="evoo"
+              onClick={openModal}
+              data-id={basePokeTempId}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${basePokeTempId}.png`}
               alt=""
             />
@@ -60,6 +63,8 @@ const EvolutionDataComponent = ({ singlePokeEvoChain }) => {
               </p>
               <img
                 className="evoo"
+                data-id={firstEvolTempId}
+                onClick={openModal}
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${firstEvolTempId}.png`}
                 alt=""
               />
@@ -83,6 +88,8 @@ const EvolutionDataComponent = ({ singlePokeEvoChain }) => {
               </p>
               <img
                 className="evoo"
+                data-id={secondEvolTempId}
+                onClick={openModal}
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${secondEvolTempId}.png`}
                 alt=""
               />
