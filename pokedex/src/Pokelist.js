@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SinglePokemon from "./SinglePokemon";
 import "./Styles/Pokelist.css";
-import { getPokemon, getPokemonData, fetchSinglePoke } from "./util/pokemon";
+import { getPokemon, getPokemonData } from "./util/pokemon";
 import Modal from "./Modal";
+/* import SearchForm from "./SearchForm"; */
 
 const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
@@ -15,6 +16,9 @@ function Pokelist() {
   const [singlePoke, setSinglePoke] = useState([]);
   const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
   const [singlePokeEvoChain, setSinglePokeEvoChain] = useState([]);
+  const [input, setInput] = useState("");
+
+  let tempId = "";
 
   const closeModal = () => {
     setShowModal(false);
@@ -24,49 +28,73 @@ function Pokelist() {
 
   //show Modal and what information to get
 
+  //Functions
+
+  const fetchSinglePoke = async (value) => {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
+    const data = await response.json();
+    setSinglePoke(data);
+
+    return data;
+  };
+
+  const fetchSpecieData = async (value) => {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${value}`
+    );
+    const data = await response.json();
+    setSinglePokeSpecies(data);
+
+    return data;
+  };
+
+  const fetchEvoData = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    setSinglePokeEvoChain(data);
+    return data;
+  };
+
   const openModal = async (e) => {
-    let tempId = e.target.dataset.id;
+    tempId = e.target.dataset.id;
     //fetch detailed information about the pokemon based on its ID
-
-    const fetchSinglePoke = async () => {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${tempId}`
-      );
-      const data = await response.json();
-      setSinglePoke(data);
-
-      return data;
-    };
-
-    const fetchSpecieData = async () => {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon-species/${tempId}`
-      );
-      const data = await response.json();
-      setSinglePokeSpecies(data);
-
-      return data;
-    };
-
-    const fetchEvoData = async (url) => {
-      const response = await fetch(url);
-      const data = await response.json();
-      setSinglePokeEvoChain(data);
-      return data;
-    };
 
     // Fetch the data by sending two request at once rather than one by one
     const [singlePoke, specieData] = await Promise.all([
-      fetchSinglePoke(),
-      fetchSpecieData(),
+      fetchSinglePoke(tempId),
+      fetchSpecieData(tempId),
     ]);
-
+    //fetch evo Data with the URL that is is sitting in SpecieData
     const [singlePokeEvoChain] = await Promise.all([
       fetchEvoData(specieData.evolution_chain.url),
     ]);
 
     setShowModal(true);
   };
+
+  /* handle Submit  */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!input) return;
+
+    if (input) {
+      setInput(input.toLowerCase());
+      const [singlePoke, specieData] = await Promise.all([
+        fetchSinglePoke(input),
+        fetchSpecieData(input),
+      ]);
+      //fetch evo Data with the URL that is is sitting in SpecieData
+      const [singlePokeEvoChain] = await Promise.all([
+        fetchEvoData(specieData.evolution_chain.url),
+      ]);
+
+      setShowModal(true);
+      setInput("");
+      e.target.reset();
+    }
+  };
+
+  /* End handle Sumbit */
 
   useEffect(() => {
     async function fetchData() {
@@ -89,7 +117,6 @@ function Pokelist() {
     );
 
     setPokemons(_pokemonData);
-    await console.log(pokemons);
   };
 
   //next 20 Pokemon
@@ -115,6 +142,36 @@ function Pokelist() {
     setLoading(false);
   };
 
+  //next Poke in Modal
+  const nextModalPoke = async (e) => {
+    if (e.currentTarget.dataset.id === 898) return;
+    let tempId = parseInt(e.currentTarget.dataset.id) + 1;
+    console.log(tempId);
+    const [singlePoke, specieData] = await Promise.all([
+      fetchSinglePoke(tempId),
+      fetchSpecieData(tempId),
+    ]);
+    //fetch evo Data with the URL that is is sitting in SpecieData
+    const [singlePokeEvoChain] = await Promise.all([
+      fetchEvoData(specieData.evolution_chain.url),
+    ]);
+  };
+
+  //prev Poke in Modal
+  const prevModalPoke = async (e) => {
+    if (e.currentTarget.dataset.id === 1) return;
+    let tempId = parseInt(e.currentTarget.dataset.id) - 1;
+    console.log(tempId);
+    const [singlePoke, specieData] = await Promise.all([
+      fetchSinglePoke(tempId),
+      fetchSpecieData(tempId),
+    ]);
+    //fetch evo Data with the URL that is is sitting in SpecieData
+    const [singlePokeEvoChain] = await Promise.all([
+      fetchEvoData(specieData.evolution_chain.url),
+    ]);
+  };
+
   return (
     <>
       <header>
@@ -133,14 +190,31 @@ function Pokelist() {
             </button>
           </div>
 
-          {/* show Modal */}
+          {/* FORM Beginn hier */}
+          <div className="form_container">
+            <form action="submit" onSubmit={handleSubmit}>
+              <input
+                className="form"
+                type="text"
+                name="form"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type ID or Name of Pokémon..."
+              />
+            </form>
+          </div>
+          {/* FORM Ende hier */}
 
+          {/* show Modal if state is true */}
           {showModal && (
             <Modal
               singlePoke={singlePoke}
               closeModal={closeModal}
               singlePokeSpecies={singlePokeSpecies}
               singlePokeEvoChain={singlePokeEvoChain}
+              openModal={openModal}
+              nextModalPoke={nextModalPoke}
+              prevModalPoke={prevModalPoke}
             />
           )}
 
